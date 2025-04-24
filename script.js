@@ -10,11 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreElement = document.getElementById('score');
     const correctAnswersElement = document.getElementById('correct-answers');
     const restartButton = document.getElementById('restart-button');
+    const questionNumberElement = document.getElementById('question-number');
+    const progressBarElement = document.getElementById('progress-bar');
+
+    const totalQuestions = 10;
+    const quizDuration = 30; // in seconds
 
     let currentQuestionIndex = 0;
     let currentQuestions = [];
     let score = 0;
-    let timeLeft = 15; // Total time for the quiz
+    let timeLeft = quizDuration;
     let timerInterval;
     let allQuestions = [];
 
@@ -32,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         score = 0;
         currentQuestionIndex = 0;
         const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
-        currentQuestions = shuffledQuestions.slice(0, 5);
-        timeLeft = 15; // Reset the timer for each new quiz
+        currentQuestions = shuffledQuestions.slice(0, totalQuestions);
+        timeLeft = quizDuration; // Reset the timer for each new quiz
         timerElement.textContent = `Time: ${timeLeft}`;
+        updateProgress();
         startQuizTimer();
         loadQuestion();
     }
@@ -43,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetOptions();
         if (currentQuestionIndex < currentQuestions.length) {
             const currentQ = currentQuestions[currentQuestionIndex];
-            questionElement.textContent = currentQ.question;
+            questionElement.textContent = `${currentQuestionIndex + 1}. ${currentQ.question}`; // Add serial number
 
             if (currentQ.options && currentQ.options.length === 2) {
                 optionButtons.forEach((button, index) => {
@@ -83,13 +89,29 @@ document.addEventListener('DOMContentLoaded', () => {
         optionButtons.forEach(button => {
             button.classList.remove('correct', 'incorrect');
             button.disabled = true;
-
-            if (button.dataset.answer === correctOption) {
-                button.classList.add('correct');
-            } else if (selectedOption && button.dataset.answer === selectedOption.dataset.answer) {
-                button.classList.add('incorrect');
-            }
         });
+
+        if (selectedOption && selectedOption.dataset.answer === correctOption) {
+            // Correct answer selected
+            selectedOption.classList.add('correct');
+        } else if (selectedOption) {
+            // Wrong answer selected
+            selectedOption.classList.add('incorrect');
+            optionButtons.forEach(button => {
+                if (button.dataset.answer === correctOption) {
+                    button.classList.add('correct');
+                }
+            });
+        } else {
+            // Time ran out, no option selected
+            optionButtons.forEach(button => {
+                if (button.dataset.answer === correctOption) {
+                    button.classList.add('correct');
+                }
+            });
+        }
+
+        updateProgress(); // Update progress after each answer
 
         currentQuestionIndex++;
         if (currentQuestionIndex < currentQuestions.length) {
@@ -125,6 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function restartGame() {
         resultsPage.style.display = 'none';
         startPage.style.display = 'block'; // Redirect to the start page
+    }
+
+    function updateProgress() {
+        const progress = (currentQuestionIndex + 1) / totalQuestions;
+        progressBarElement.style.width = `${progress * 100}%`;
+        questionNumberElement.textContent = currentQuestionIndex + 1;
     }
 
     startButton.addEventListener('click', startGame);
