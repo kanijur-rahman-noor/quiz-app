@@ -22,7 +22,7 @@ h1, h2 {
     margin-bottom: 20px;
 }
 
-button {
+.btn {
     background-color: #007bff;
     color: white;
     border: none;
@@ -34,13 +34,13 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
+.btn:hover {
     background-color: #0056b3;
 }
 
 #timer {
     font-size: 1.2em;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #555;
 }
 
@@ -66,6 +66,9 @@ button:hover {
     height: 100%;
     width: 0%;
     border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    color: #777;
 }
 
 #question-number {
@@ -79,14 +82,11 @@ button:hover {
 }
 
 #options {
-    /* display: grid;
-    grid-template-columns: repeat(2, 1fr); */
-    gap: 10px;
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
     width: 70%;
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
 }
 
 .option {
@@ -98,78 +98,6 @@ button:hover {
     background-color: #eee;
     color: #333;
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-
-.correct {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.incorrect {
-    background-color: #f44336;
-    color: white;
-}
-
-#correct-answers {
-    text-align: left;
-    margin-top: 20px;
-}
-
-#correct-answers p {
-    margin-bottom: 5px;
-}
-
-
-
-h1, h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#timer {
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    color: #555;
-}
-
-#question {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-
-.option {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    background-color: #eee;
-    color: #333;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.option:hover {
-    background-color: #dddddd00;
 }
 
 .correct {
@@ -189,10 +117,4 @@ button:hover {
 
 #correct-answers p {
     margin-bottom: 5px;
-}
-
-#progress-bar {
-    font-size: 1em;
-    margin-bottom: 10px;
-    color: #777;
 }
