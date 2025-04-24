@@ -14,6 +14,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 70vw;
 }
 
 h1, h2 {
@@ -78,10 +79,14 @@ button:hover {
 }
 
 #options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Force two columns */
+    /* display: grid;
+    grid-template-columns: repeat(2, 1fr); */
     gap: 10px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .option {
@@ -95,9 +100,7 @@ button:hover {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.option:hover {
-    background-color: #ddd;
-}
+
 
 .correct {
     background-color: #4CAF50;
@@ -159,12 +162,6 @@ button:hover {
     color: #333;
 }
 
-#options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Force two columns */
-    gap: 10px;
-    margin-bottom: 20px;
-}
 
 .option {
     padding: 10px;
@@ -178,7 +175,7 @@ button:hover {
 }
 
 .option:hover {
-    background-color: #ddd;
+    background-color: #dddddd00;
 }
 
 .correct {
