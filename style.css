@@ -10,7 +10,7 @@ body {
 
 .container {
     width: 60vw;
-    background-color: #47ba45a1;
+    background-color: #47ba45;
     padding: 30px;
     border-radius: 40px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -233,7 +233,7 @@ button:active {
   }
   
   .background {
-    stroke: #47ba45a1;
+    stroke: #47ba45;
   }
   
   .progress {
