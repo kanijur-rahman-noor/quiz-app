@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const totalQuestions = 10;
-    const quizDuration = 40;
+    const quizDuration = 60;
 
     let currentQuestionIndex = 0;
     let currentQuestions = [];

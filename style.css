@@ -122,7 +122,6 @@ h1, h2 {
     cursor: pointer;
     background-color: #eee;
     color: #333;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .option {
@@ -194,7 +193,8 @@ h1, h2 {
 }
 
 .option.pop {
-    animation: popInBouncy 0.3s ease-out forwards; /* Changed animation name and timing function */
+    /* animation: popInBouncy 0.3s ease-out forwards;  */
+    /* Changed animation name and timing function */
 }
 
 
