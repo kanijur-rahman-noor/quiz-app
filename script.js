@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBarElement = document.getElementById('progress-bar');
 
     const totalQuestions = 10;
-    const quizDuration = 30;
+    const quizDuration = 40;
 
     let currentQuestionIndex = 0;
     let currentQuestions = [];
@@ -25,9 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     questionNumberElement.textContent = 0;
 
-    // Add pop-in animation style
-    
-
+    // Pop-in animation style
     const style = document.createElement('style');
     style.innerHTML = `
         @keyframes popInBouncy {
@@ -49,18 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .pop {
             animation: popInBouncy 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-            @keyframes popIn {
+        @keyframes popIn {
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
         .pop {
             animation: popIn 0.3s ease forwards;
         }
-    `
-    ;
+    `;
     document.head.appendChild(style);
-    
-
 
     fetch('./assets/questions.json')
         .then(response => response.json())
@@ -73,12 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
         startPage.style.display = 'none';
         quizPage.style.display = 'block';
         score = 0;
+        
         currentQuestionIndex = 0;
+        questionNumberElement.textContent = 0;
         const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
         currentQuestions = shuffledQuestions.slice(0, totalQuestions);
         timeLeft = quizDuration;
         timerElement.textContent = `Time: ${timeLeft}`;
-        startQuizTimer();
+        startQuizTimer(); // Start the quiz timer
         loadQuestion();
     }
 
@@ -134,8 +131,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startQuizTimer() {
         clearInterval(timerInterval);
+        
+        // Set up the circle progress
+        const circle = document.querySelector('.progress');
+        const text = document.querySelector('.timer-text');
+        const radius = 45;
+        const circumference = 2 * Math.PI * radius;
+        circle.style.strokeDasharray = circumference;
+
+        function setProgress(time) {
+            const offset = circumference - (time / quizDuration) * circumference;
+            circle.style.strokeDashoffset = offset;
+            text.textContent = time;
+        }
+
+        // Timer logic
         timerInterval = setInterval(() => {
             timeLeft--;
+            setProgress(timeLeft);
             timerElement.textContent = `Time: ${timeLeft}`;
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
@@ -201,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsPage.style.display = 'block';
         scoreElement.textContent = score;
         correctAnswersElement.innerHTML = '';
+        
     }
 
     function restartGame() {
