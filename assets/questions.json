@@ -25,7 +25,7 @@
     {"question": "Who is the CEO of Tesla?", "options": ["Elon Musk", "Jeff Bezos"], "answer": "Elon Musk"},
     {"question": "Which company owns the brand \"WhatsApp\"?", "options": ["Meta (Facebook)", "Google"], "answer": "Meta (Facebook)"},
     {"question": "What does \"IPO\" stand for?", "options": ["Initial Public Offering", "International Purchase Order"], "answer": "Initial Public Offering"},
-    {"question": "†Which company is the worldís largest e-commerce retailer?", "options": ["Amazon", "Alibaba"], "answer": "Amazon"},
+    {"question": "Which company is the worldss largest e-commerce retailer?", "options": ["Amazon", "Alibaba"], "answer": "Amazon"},
     {"question": "What is Netflix's primary product?", "options": ["Streaming Services", "Video Games"], "answer": "Streaming Services"},
     {"question": "Which brandís slogan is \"Just Do It\"? ", "options": ["Nike", "Adidas"], "answer": "Nike"},
     {"question": "What does \"B2B\" stand for?", "options": ["Business to Business", "Brand to Brand"], "answer": "Business to Business"},

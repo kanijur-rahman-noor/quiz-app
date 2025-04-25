@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.getElementById('restart-button');
     const questionNumberElement = document.getElementById('question-number');
     const progressBarElement = document.getElementById('progress-bar');
+    let usedQuestions = new Set(); // Track previously used questions
+
 
     const totalQuestions = 10;
     const quizDuration = 40;
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error loading questions:', error));
 
-    function startGame() {
+    function startGame_old() {
         startPage.style.display = 'none';
         quizPage.style.display = 'block';
         score = 0;
@@ -78,6 +80,48 @@ document.addEventListener('DOMContentLoaded', () => {
         startQuizTimer(); // Start the quiz timer
         loadQuestion();
     }
+
+    function startGame() {
+        startPage.style.display = 'none';
+        quizPage.style.display = 'block';
+        score = 0;
+        currentQuestionIndex = 0;
+        questionNumberElement.textContent = 0;
+    
+        // Filter out used questions
+        const unusedQuestions = allQuestions.filter(q => !usedQuestions.has(q.question));
+    
+        let selectedQuestions = [];
+    
+        if (unusedQuestions.length >= totalQuestions) {
+            // If enough unused questions, pick randomly from them
+            selectedQuestions = unusedQuestions
+                .sort(() => Math.random() - 0.5)
+                .slice(0, totalQuestions);
+        } else {
+            // If not enough unused, take all unused and fill rest with random from allQuestions
+            selectedQuestions = [...unusedQuestions];
+    
+            const needed = totalQuestions - selectedQuestions.length;
+            const remaining = [...allQuestions]
+                .sort(() => Math.random() - 0.5)
+                .filter(q => !selectedQuestions.includes(q))
+                .slice(0, needed);
+    
+            selectedQuestions = selectedQuestions.concat(remaining);
+        }
+    
+        // Mark selected questions as used
+        selectedQuestions.forEach(q => usedQuestions.add(q.question));
+    
+        currentQuestions = selectedQuestions;
+    
+        timeLeft = quizDuration;
+        timerElement.textContent = `Time: ${timeLeft}`;
+        startQuizTimer();
+        loadQuestion();
+    }
+    
 
     function typeQuestion(text, element, callback) {
         let index = 0;
@@ -101,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function loadQuestion() {
+    function loadQuestion_old() {
         resetOptions();
         optionButtons.forEach(button => {
             button.classList.remove('pop');
@@ -128,6 +172,41 @@ document.addEventListener('DOMContentLoaded', () => {
             endQuiz();
         }
     }
+
+    function loadQuestion() {
+        resetOptions();
+        optionButtons.forEach(button => {
+            button.classList.remove('pop');
+            button.style.display = 'none';
+        });
+    
+        if (currentQuestionIndex < currentQuestions.length) {
+            const currentQ = currentQuestions[currentQuestionIndex];
+            
+            // Randomize the order of options
+            const shuffledOptions = [...currentQ.options].sort(() => Math.random() - 0.5);
+    
+            // Store the correct answer reference
+            const correctAnswer = currentQ.answer;
+    
+            // Assign shuffled options and mark the correct one
+            optionButtons.forEach((button, index) => {
+                if (index < shuffledOptions.length) {
+                    button.textContent = shuffledOptions[index];
+                    button.dataset.answer = shuffledOptions[index];
+                    button.style.display = 'block';
+                }
+            });
+    
+            // Replace the original answer with the shuffled one
+            currentQuestions[currentQuestionIndex].shuffledAnswer = correctAnswer;
+    
+            typeQuestion(`${currentQuestionIndex + 1}. ${currentQ.question}`, questionElement, animateOptionsIn);
+        } else {
+            endQuiz();
+        }
+    }
+    
 
     function startQuizTimer() {
         clearInterval(timerInterval);
@@ -193,13 +272,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function checkAnswer(selectedOption) {
+    function checkAnswer_old(selectedOption) {
         const currentQ = currentQuestions[currentQuestionIndex];
         if (selectedOption.dataset.answer === currentQ.answer) {
             score++;
         }
         showAnswer(selectedOption);
     }
+
+    function checkAnswer(selectedOption) {
+        const currentQ = currentQuestions[currentQuestionIndex];
+        const correct = currentQ.answer;
+    
+        if (selectedOption.dataset.answer === correct) {
+            score++;
+        }
+        showAnswer(selectedOption);
+    }
+    
 
     function resetOptions() {
         optionButtons.forEach(button => {
