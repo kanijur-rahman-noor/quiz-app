@@ -195,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         score = 0;
         currentQuestionIndex = 0;
         questionNumberElement.textContent = 0;
+        progressBarElement.style.width = 0;
     
         // Filter out used questions
         const unusedQuestions = allQuestions.filter(q => !usedQuestions.has(q.question));
