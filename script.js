@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Replace the original answer with the shuffled one
             currentQuestions[currentQuestionIndex].shuffledAnswer = correctAnswer;
     
-            typeQuestion(`${currentQuestionIndex + 1}. ${currentQ.question}`, questionElement, animateOptionsIn);
+            typeQuestion(`${currentQ.question}`, questionElement, animateOptionsIn);
         } else {
             endQuiz();
         }
