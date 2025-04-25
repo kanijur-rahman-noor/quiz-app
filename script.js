@@ -82,6 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startGame() {
+
+  // Play start sound
+  const startSound = document.getElementById('start-sound');
+  startSound.play();
+
         startPage.style.display = 'none';
         quizPage.style.display = 'block';
         score = 0;
@@ -120,6 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
         timerElement.textContent = `Time: ${timeLeft}`;
         startQuizTimer();
         loadQuestion();
+
+          // Play background music during quiz
+    const backgroundMusic = document.getElementById('background-music');
+    backgroundMusic.play();
     }
     
 
@@ -299,6 +308,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function endQuiz() {
+ // Stop background music and play end music
+ const backgroundMusic = document.getElementById('background-music');
+ const endMusic = document.getElementById('end-music');
+ 
+ backgroundMusic.pause();
+ backgroundMusic.currentTime = 0; // Reset to the start of the song
+ endMusic.play();
+
+
         clearInterval(timerInterval);
         quizPage.style.display = 'none';
         resultsPage.style.display = 'block';
