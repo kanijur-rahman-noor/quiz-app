@@ -10,11 +10,12 @@ body {
 
 .container {
     width: 60vw;
-    background-color:#47ba45;
     padding: 30px;
     border-radius: 40px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
+    background-image: url(./assets/bg.png);
+    background-size: contain;
 }
 
 .hero{
