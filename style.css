@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #fffaf4;
     margin: 0;
 }
 
@@ -64,7 +64,7 @@ h1, h2 {
 #progress-bar {
     background-color: #007bff;
     height: 100%;
-    width: 0%;
+    width: 0;
     border-radius: 5px;
     font-size: 1em;
     margin-bottom: 10px;
@@ -100,6 +100,19 @@ h1, h2 {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.option {
+    padding: 15px;
+    font-size: 1.1em;
+    background-color: #f0f8ff;
+    border: 2px solid #007bff;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+}
+.option:hover {
+    transform: scale(1.05);
+}
+
+
 .correct {
     background-color: #4CAF50;
     color: white;
@@ -110,6 +123,24 @@ h1, h2 {
     color: white;
 }
 
+.option.correct::after {
+    content: '✔';
+    color: white;
+    margin-left: 10px;
+    font-weight: bold;
+    float: right;
+}
+
+.option.incorrect::after {
+    content: '✖';
+    color: white;
+    margin-left: 10px;
+    font-weight: bold;
+    float: right;
+
+}
+
+
 #correct-answers {
     text-align: left;
     margin-top: 20px;
@@ -117,4 +148,33 @@ h1, h2 {
 
 #correct-answers p {
     margin-bottom: 5px;
+}
+
+@keyframes popInBouncy {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(0.95);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.option.pop {
+    animation: popInBouncy 0.3s ease-out forwards; /* Changed animation name and timing function */
+}
+
+
+button:active {
+    transform: translateY(2px); /* Move down slightly on press */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Smaller shadow when pressed */
 }

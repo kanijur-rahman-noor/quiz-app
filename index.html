@@ -5,8 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeron Quiz</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animation.css">
+
 </head>
 <body>
+   
+
+
+<div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    </div >
     <div class="container">
         <div id="start-page">
             <h1>Test Your Knowledge!</h1>
@@ -14,7 +33,7 @@
         </div>
         <div id="quiz-page" style="display: none;">
             <div id="timer">Time: 30</div>
-            <span id="question-number">1</span> / 10
+            <span id="question-number">0</span> / 10
 
             <div id="progress-info">
             
@@ -26,8 +45,8 @@
             <div id="options">
                 <button class="option" data-index="0"></button>
                 <button class="option" data-index="1"></button>
-                <button class="option" data-index="2" style="display: none;"></button>
-                <button class="option" data-index="3" style="display: none;"></button>
+                <!-- <button class="option" data-index="2" style="display: none;"></button>
+                <button class="option" data-index="3" style="display: none;"></button> -->
             </div>
             <button id="submit-button" style="display: none;">Submit</button>
         </div>

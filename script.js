@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBarElement = document.getElementById('progress-bar');
 
     const totalQuestions = 10;
-    const quizDuration = 30; // in seconds
+    const quizDuration = 30;
 
     let currentQuestionIndex = 0;
     let currentQuestions = [];
@@ -23,7 +23,45 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerInterval;
     let allQuestions = [];
 
-    // Load questions from JSON file
+    questionNumberElement.textContent = 0;
+
+    // Add pop-in animation style
+    
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes popInBouncy {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            80% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .pop {
+            animation: popInBouncy 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+            @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop {
+            animation: popIn 0.3s ease forwards;
+        }
+    `
+    ;
+    document.head.appendChild(style);
+    
+
+
     fetch('./assets/questions.json')
         .then(response => response.json())
         .then(data => {
@@ -38,29 +76,53 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQuestionIndex = 0;
         const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
         currentQuestions = shuffledQuestions.slice(0, totalQuestions);
-        timeLeft = quizDuration; // Reset the timer for each new quiz
+        timeLeft = quizDuration;
         timerElement.textContent = `Time: ${timeLeft}`;
-        updateProgress();
         startQuizTimer();
         loadQuestion();
     }
 
+    function typeQuestion(text, element, callback) {
+        let index = 0;
+        element.textContent = '';
+        const interval = setInterval(() => {
+            element.textContent += text.charAt(index);
+            index++;
+            if (index === text.length) {
+                clearInterval(interval);
+                if (callback) callback();
+            }
+        }, 30);
+    }
+
+    function animateOptionsIn() {
+        optionButtons.forEach((button, index) => {
+            setTimeout(() => {
+                button.classList.add('pop');
+                button.style.display = 'block';
+            }, index * 100);
+        });
+    }
+
     function loadQuestion() {
         resetOptions();
+        optionButtons.forEach(button => {
+            button.classList.remove('pop');
+            button.style.display = 'none';
+        });
+
         if (currentQuestionIndex < currentQuestions.length) {
             const currentQ = currentQuestions[currentQuestionIndex];
-            questionElement.textContent = `${currentQuestionIndex + 1}. ${currentQ.question}`; // Add serial number
 
             if (currentQ.options && currentQ.options.length === 2) {
                 optionButtons.forEach((button, index) => {
                     if (index < 2) {
                         button.textContent = currentQ.options[index];
                         button.dataset.answer = currentQ.options[index];
-                        button.style.display = 'block';
-                    } else {
-                        button.style.display = 'none';
                     }
                 });
+
+                typeQuestion(`${currentQuestionIndex + 1}. ${currentQ.question}`, questionElement, animateOptionsIn);
             } else {
                 console.error('Error: Each question must have exactly two options.');
                 endQuiz();
@@ -77,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             timerElement.textContent = `Time: ${timeLeft}`;
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                endQuiz(); // End the quiz when time runs out
+                endQuiz();
             }
         }, 1000);
     }
@@ -92,10 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (selectedOption && selectedOption.dataset.answer === correctOption) {
-            // Correct answer selected
             selectedOption.classList.add('correct');
         } else if (selectedOption) {
-            // Wrong answer selected
             selectedOption.classList.add('incorrect');
             optionButtons.forEach(button => {
                 if (button.dataset.answer === correctOption) {
@@ -103,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         } else {
-            // Time ran out, no option selected
             optionButtons.forEach(button => {
                 if (button.dataset.answer === correctOption) {
                     button.classList.add('correct');
@@ -111,13 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        updateProgress(); // Update progress after each answer
+        updateProgress();
 
         currentQuestionIndex++;
         if (currentQuestionIndex < currentQuestions.length) {
-            setTimeout(loadQuestion, 1000); // Short delay before next question
+            setTimeout(loadQuestion, 1000);
         } else {
-            setTimeout(endQuiz, 1000); // Show results after the last question
+            setTimeout(endQuiz, 1000);
         }
     }
 
@@ -131,22 +190,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetOptions() {
         optionButtons.forEach(button => {
-            button.classList.remove('correct', 'incorrect');
+            button.classList.remove('correct', 'incorrect', 'pop');
             button.disabled = false;
         });
     }
 
     function endQuiz() {
-        clearInterval(timerInterval); // Stop the timer
+        clearInterval(timerInterval);
         quizPage.style.display = 'none';
         resultsPage.style.display = 'block';
         scoreElement.textContent = score;
-        correctAnswersElement.innerHTML = ''; // Clear the correct answers display
+        correctAnswersElement.innerHTML = '';
     }
 
     function restartGame() {
         resultsPage.style.display = 'none';
-        startPage.style.display = 'block'; // Redirect to the start page
+        startPage.style.display = 'block';
     }
 
     function updateProgress() {
@@ -158,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startButton.addEventListener('click', startGame);
 
     optionButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             checkAnswer(this);
         });
     });
