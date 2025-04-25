@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function animateOptionsIn() {
         optionButtons.forEach((button, index) => {
             setTimeout(() => {
-                button.classList.add('pop');
+                // button.classList.add('pop');
                 button.style.display = 'block';
             }, index * 100);
         });
